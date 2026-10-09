@@ -1,0 +1,182 @@
+[
+  {
+    "name": "Server:Version",
+    "sql": "SELECT CAST(SERVERPROPERTY('ProductVersion') AS NVARCHAR(128))",
+    "datatype": "generic_data_string",
+    "group": "Basic Info",
+    "flag": "basic_info",
+    "builtin": true,
+    "unit": "",
+    "result": "auto"
+  },
+  {
+    "name": "Server:Edition",
+    "sql": "SELECT CAST(SERVERPROPERTY('Edition') AS NVARCHAR(256))",
+    "datatype": "generic_data_string",
+    "group": "Basic Info",
+    "flag": "basic_info",
+    "builtin": true,
+    "unit": "",
+    "result": "auto"
+  },
+  {
+    "name": "Server:Name",
+    "sql": "SELECT CAST(@@SERVERNAME AS NVARCHAR(256))",
+    "datatype": "generic_data_string",
+    "group": "Basic Info",
+    "flag": "basic_info",
+    "builtin": true,
+    "unit": "",
+    "result": "auto"
+  },
+  {
+    "name": "Database:Current",
+    "sql": "SELECT DB_NAME()",
+    "datatype": "generic_data_string",
+    "group": "Basic Info",
+    "flag": "basic_info",
+    "builtin": true,
+    "unit": "",
+    "result": "auto"
+  },
+  {
+    "name": "Database:Count",
+    "sql": "SELECT COUNT(*) FROM sys.databases",
+    "datatype": "generic_data",
+    "group": "Databases",
+    "flag": "databases",
+    "builtin": true,
+    "unit": "",
+    "result": "auto"
+  },
+  {
+    "name": "Database:List",
+    "sql": "SELECT name, state_desc, recovery_model_desc FROM sys.databases ORDER BY name",
+    "datatype": "generic_data_string",
+    "group": "Databases",
+    "flag": "databases",
+    "builtin": true,
+    "unit": "",
+    "result": "auto"
+  },
+  {
+    "name": "Database:SizeMB",
+    "sql": "SELECT CAST(ROUND(SUM(size)*8.0/1024.0,2) AS DECIMAL(18,2)) FROM sys.database_files",
+    "datatype": "generic_data",
+    "group": "Databases",
+    "flag": "databases",
+    "builtin": true,
+    "unit": "MB",
+    "result": "auto"
+  },
+  {
+    "name": "Database:LogSizeMB",
+    "sql": "SELECT CAST(ROUND(SUM(size)*8.0/1024.0,2) AS DECIMAL(18,2)) FROM sys.database_files WHERE type_desc='LOG'",
+    "datatype": "generic_data",
+    "group": "Databases",
+    "flag": "databases",
+    "builtin": true,
+    "unit": "MB",
+    "result": "auto"
+  },
+  {
+    "name": "Sessions:UserConnections",
+    "sql": "SELECT COUNT(*) FROM sys.dm_exec_sessions WHERE is_user_process=1",
+    "datatype": "generic_data",
+    "group": "Connections",
+    "flag": "connections",
+    "builtin": true,
+    "unit": "",
+    "result": "auto"
+  },
+  {
+    "name": "Sessions:RunningRequests",
+    "sql": "SELECT COUNT(*) FROM sys.dm_exec_requests WHERE session_id > 50",
+    "datatype": "generic_data",
+    "group": "Connections",
+    "flag": "connections",
+    "builtin": true,
+    "unit": "",
+    "result": "auto"
+  },
+  {
+    "name": "Sessions:WaitingRequests",
+    "sql": "SELECT COUNT(*) FROM sys.dm_exec_requests WHERE wait_type IS NOT NULL AND session_id > 50",
+    "datatype": "generic_data",
+    "group": "Connections",
+    "flag": "connections",
+    "builtin": true,
+    "unit": "",
+    "result": "auto"
+  },
+  {
+    "name": "Sessions:List",
+    "sql": "SELECT session_id, login_name, host_name, program_name, status, database_id FROM sys.dm_exec_sessions WHERE is_user_process=1 ORDER BY session_id",
+    "datatype": "generic_data_string",
+    "group": "Connections",
+    "flag": "connections",
+    "builtin": true,
+    "unit": "",
+    "result": "auto"
+  },
+  {
+    "name": "Performance:LongRunningOver60s",
+    "sql": "SELECT COUNT(*) FROM sys.dm_exec_requests WHERE total_elapsed_time>60000 AND session_id>50",
+    "datatype": "generic_data",
+    "group": "Performance",
+    "flag": "performance",
+    "builtin": true,
+    "unit": "",
+    "result": "auto"
+  },
+  {
+    "name": "Performance:BlockedRequests",
+    "sql": "SELECT COUNT(*) FROM sys.dm_exec_requests WHERE blocking_session_id>0",
+    "datatype": "generic_data",
+    "group": "Performance",
+    "flag": "performance",
+    "builtin": true,
+    "unit": "",
+    "result": "auto"
+  },
+  {
+    "name": "Performance:LockCount",
+    "sql": "SELECT COUNT(*) FROM sys.dm_tran_locks",
+    "datatype": "generic_data",
+    "group": "Performance",
+    "flag": "performance",
+    "builtin": true,
+    "unit": "",
+    "result": "auto"
+  },
+  {
+    "name": "Performance:BufferCacheHitPct",
+    "sql": "SELECT TOP 1 CAST(ROUND(100.0*CAST(r.cntr_value AS FLOAT)/NULLIF(CAST(b.cntr_value AS FLOAT),0),2) AS FLOAT) FROM sys.dm_os_performance_counters r JOIN sys.dm_os_performance_counters b ON r.object_name=b.object_name AND b.counter_name='Buffer cache hit ratio base' WHERE r.counter_name='Buffer cache hit ratio' AND r.object_name LIKE '%Buffer Manager%'",
+    "datatype": "generic_data",
+    "group": "Performance",
+    "flag": "performance",
+    "builtin": true,
+    "unit": "%",
+    "result": "auto"
+  },
+  {
+    "name": "Security:ServerLogins",
+    "sql": "SELECT COUNT(*) FROM sys.server_principals WHERE type IN ('S','U','G')",
+    "datatype": "generic_data",
+    "group": "Security",
+    "flag": "security",
+    "builtin": true,
+    "unit": "",
+    "result": "auto"
+  },
+  {
+    "name": "Security:DatabaseUsers",
+    "sql": "SELECT COUNT(*) FROM sys.database_principals WHERE type IN ('S','U','G')",
+    "datatype": "generic_data",
+    "group": "Security",
+    "flag": "security",
+    "builtin": true,
+    "unit": "",
+    "result": "auto"
+  }
+]
