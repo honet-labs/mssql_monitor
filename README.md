@@ -210,6 +210,14 @@ Do not zip a containing parent directory; the `discovery_definition.ini` file mu
 - Monitoring uses database views/statistics and therefore may differ across versions or privilege sets.
 - SQL Server ODBC 18 normally validates TLS certificates when encryption is enabled. If certificate validation fails, configure a trusted CA/certificate rather than switching on `TrustServerCertificate` in production.
 
+## Screenshoot
+## Discovery
+<img width="1659" height="890" alt="image" src="https://github.com/user-attachments/assets/29400069-c0e0-45c5-bcf5-27faa154f005" />
+<img width="1664" height="836" alt="image" src="https://github.com/user-attachments/assets/b5173d9a-23ed-44fb-b135-1895535049b1" />
+<img width="1664" height="828" alt="image" src="https://github.com/user-attachments/assets/04e318ad-a6f2-4173-9b0b-35db45f60db5" />
+<img width="1664" height="875" alt="image" src="https://github.com/user-attachments/assets/991c966c-1352-4131-a493-4375549dc37b" />
+<img width="1667" height="877" alt="image" src="https://github.com/user-attachments/assets/64ea6927-bd17-4b27-842c-3d4b54dd127c" />
+
 ## Contributing
 
 Contributions are welcome for additional built-in metrics, query optimization, version compatibility, tests, documentation and safe monitoring use cases. Please include database version, Pandora FMS version, reproduction steps and sanitized logs when filing an issue. Do not submit passwords, private IP inventories or database query results containing sensitive values.
